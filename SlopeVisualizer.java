@@ -34,7 +34,6 @@ public class SlopeVisualizer extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 clicks++;
-                System.out.println("Mouse clicked at: " + e.getX() + ", " + e.getY());
                 if (placeDot1) {
                     dot1.x = e.getX();
                     dot1.y = e.getY();
@@ -63,7 +62,11 @@ public class SlopeVisualizer extends JFrame {
         g2d.fillOval(dot1.x, dot1.y, 10, 10);
         g2d.fillOval(dot2.x, dot2.y, 10, 10);
         if (clicks >= 2) {
-            g2d.drawLine(dot1.x, dot1.y, dot2.x, dot2.y);
+            double slope = ((double) dot2.y - (double) dot1.y) / ((double) dot2.x - (double) dot1.x);
+            double yIntercept = -1 * (dot1.x * slope) + dot1.y;
+            g2d.drawLine(0, (int) yIntercept, 1500, (int) (1500 * slope + yIntercept));
+            System.out.println("Dot 1: (" + dot1.x + ", " + dot1.y + ") - Dot 2: (" + dot2.x + ", " + dot2.y + ")");
+            System.out.println("Y = " + slope + "x + " + yIntercept);
         }
     }
 
