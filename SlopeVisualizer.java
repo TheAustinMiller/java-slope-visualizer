@@ -9,6 +9,7 @@ import java.util.Random;
 public class SlopeVisualizer extends JFrame {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
+    private static final int DOT_SIZE = 10;
     static Dot dot1;
     static Dot dot2;
     static boolean placeDot1;
@@ -59,8 +60,8 @@ public class SlopeVisualizer extends JFrame {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
-        g2d.fillOval(dot1.x, dot1.y, 10, 10);
-        g2d.fillOval(dot2.x, dot2.y, 10, 10);
+        g2d.fillOval(dot1.x - (DOT_SIZE / 2), dot1.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
+        g2d.fillOval(dot2.x - (DOT_SIZE / 2), dot2.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
         if (clicks >= 2) {
             double slope = ((double) dot2.y - (double) dot1.y) / ((double) dot2.x - (double) dot1.x);
             double yIntercept = -1 * (dot1.x * slope) + dot1.y;
