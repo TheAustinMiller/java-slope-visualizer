@@ -59,15 +59,27 @@ public class SlopeVisualizer extends JFrame {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.black);
-        g2d.fillOval(dot1.x - (DOT_SIZE / 2), dot1.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
-        g2d.fillOval(dot2.x - (DOT_SIZE / 2), dot2.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
         if (clicks >= 2) {
             double slope = ((double) dot2.y - (double) dot1.y) / ((double) dot2.x - (double) dot1.x);
             double yIntercept = -1 * (dot1.x * slope) + dot1.y;
+            g2d.setColor(makeColor(slope));
             g2d.drawLine(0, (int) yIntercept, 1500, (int) (1500 * slope + yIntercept));
-            System.out.println("Dot 1: (" + dot1.x + ", " + dot1.y + ") - Dot 2: (" + dot2.x + ", " + dot2.y + ")");
+            System.out.println("Dot 1: (" + dot1.x + ", " + dot1.y + "), Dot 2: (" + dot2.x + ", " + dot2.y + ")");
             System.out.println("Y = " + slope + "x + " + yIntercept);
+        }
+        g2d.setColor(Color.black);
+        g2d.fillOval(dot1.x - (DOT_SIZE / 2), dot1.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
+        g2d.fillOval(dot2.x - (DOT_SIZE / 2), dot2.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
+    }
+
+    private static Color makeColor(double slope) {
+        slope = Math.abs(slope) * 100;
+        if (slope < 50) {
+            return Color.green;
+        } else if (slope < 150) {
+            return Color.yellow;
+        } else {
+            return Color.red;
         }
     }
 
