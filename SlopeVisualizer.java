@@ -2,9 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.awt.image.BufferedImage;
 
 public class SlopeVisualizer extends JFrame {
     private static final int WIDTH = 1000;
@@ -56,21 +54,27 @@ public class SlopeVisualizer extends JFrame {
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
+        BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bufferedImage.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(getBackground());
+        g2d.fillRect(0, 0, WIDTH, HEIGHT);
+
         if (clicks >= 2) {
             if (dot1.x == dot2.x) { dot1.x -= 1; }
             double slope = ((double) dot2.y - (double) dot1.y) / ((double) dot2.x - (double) dot1.x);
             double yIntercept = -1 * (dot1.x * slope) + dot1.y;
             g2d.setColor(makeColor(slope));
-            g2d.drawLine(0, (int) yIntercept, 1500, (int) (1500 * slope + yIntercept));
+            g2d.drawLine(0, (int) yIntercept, 1000000, (int) (1000000 * slope + yIntercept));
             System.out.println("Dot 1: (" + dot1.x + ", " + dot1.y + "), Dot 2: (" + dot2.x + ", " + dot2.y + ")");
             System.out.println("Y = " + slope + "x + " + yIntercept);
         }
         g2d.setColor(Color.black);
         g2d.fillOval(dot1.x - (DOT_SIZE / 2), dot1.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
         g2d.fillOval(dot2.x - (DOT_SIZE / 2), dot2.y - (DOT_SIZE / 2), DOT_SIZE, DOT_SIZE);
+
+        g.drawImage(bufferedImage, 0, 0, this);
+        g2d.dispose();
     }
 
     private static Color makeColor(double slope) {
