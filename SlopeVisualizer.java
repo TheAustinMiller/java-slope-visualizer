@@ -60,6 +60,7 @@ public class SlopeVisualizer extends JFrame {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (clicks >= 2) {
+            if (dot1.x == dot2.x) { dot1.x -= 1; }
             double slope = ((double) dot2.y - (double) dot1.y) / ((double) dot2.x - (double) dot1.x);
             double yIntercept = -1 * (dot1.x * slope) + dot1.y;
             g2d.setColor(makeColor(slope));
